@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Colouring outside the lines with SilverStripe Framework</title>
+		<meta name="description" content="A story about the flexibilty of SilverStripe allowing easy development of advanced features">
+		<meta name="author" content="Dylan Wagstaff">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="reveal.js-3.4.1/css/reveal.css">
+		<link rel="stylesheet" href="silverstripe.css" id="theme">
+		<link rel="stylesheet" href="reveal.js-3.4.1/lib/css/zenburn.css">
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'reveal.js-3.4.1/css/print/pdf.css' : 'reveal.js-3.4.1/css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<!--[if lt IE 9]><script src="reveal.js-3.4.1/lib/js/html5shiv.js"></script><![endif]-->
+		<style>
+			#background{background:#142237}
+		
+			ul.socials li{list-style-type:none}
+			ul.socials img{vertical-align:middle;box-shadow:none;margin-right:0.5em}
+			
+			.split{display:flex;justify-content:space-around;align-items:center}
+			
+			.left-side,.right-side{width:47%;align-items:center;display:flex}
+			.left-side{float:left}
+			.right-side{float:right}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>Painting outside the lines with SilverStripe</h1>
+					<h5>Creating more than the web</h3>
+				</section>
+				<section>
+					<section>
+						<h2>Tena Koutou</h2>
+					</section>
+					<section>
+						<h2>Who is this guy?</h2>
+						<p>A web developer. First met Silverstripe in 2008 (v2.2), haven't really looked back much since.</p>
+						<ul class="socials">
+							<li><a href="http://twitter.com/nightjarnz"><img src="img/Twitter_logo_blue.png" alt="twitter" class="social" />@NightjarNZ</a></li>
+							<li><a href="http://github.com/nightjar"><img src="img/GitHub-Mark-64px.png" alt="github" class="social" />Nightjar</a></li>
+						</ul>
+						<aside class="notes">
+							Yarn about how you came across it. And why you stuck with it (nice easy templating).
+						</aside>
+					</section>
+					<section>
+						<h2>Why SilverStripe?</h2>
+						<ul>
+							<li>It's easy.</li>
+							<li>Which means it makes me look good.</li>
+							<li>Which means it's better than *XYZ.</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Trust me.</h2>
+						<img src="img/thisguysjob.png" alt="This is pretty much my job" />
+						<p>It's not like I work for<br /> <em>the company</em> or anything...</p>
+						<p><small>ps. I mean like, I do&hellip; but&hellip; know me before you judge me.</small></p>
+					</section>
+				</section>
+				<section>
+					<h2>This talk</h2>
+					<ul>
+						<li>Background</li>
+						<li>What's the problem?</li>
+						<li>Defining the solution</li>
+						<li>Technical twister</li>
+						<li>The advantages of SilverStripe</li>
+						<li>???</li>
+						<li>Profit.</li>
+					</ul>
+				</section>
+				<section data-background="img/theLines.png"></section>
+				<section data-background="img/paintingInsideTheLines.png"></section>
+				<section data-background="img/paintingOutsideTheLines.jpg"></section>
+				<section>
+					<h2>Background</h2>
+					<section>
+						<div class="split">
+							<p>Large motor dealer in Newcastle, England</p>
+							<img src="img/Squires.jpg" alt="Bossman outside Newcastle Audi" />
+						</div>
+					</section>
+					<section>
+						<div class="split">
+							<div>
+								<p style="text-align:justify">
+									<img src="img/car_brands/audi.png" alt="Audi" />
+									<img src="img/car_brands/dacia.png" alt="Dacia" />
+									<img src="img/car_brands/ford.png" alt="Ford" />
+									<img src="img/car_brands/honda.png" alt="Honda" />
+									<br />
+									<img src="img/car_brands/hyundai.png" alt="Hyundai" />
+									<img src="img/car_brands/kia.png" alt="Kia" />
+									<img src="img/car_brands/lexus.png" alt="Lexus" />
+									<img src="img/car_brands/nissan.png" alt="Nissan" />
+									<br />
+									<img src="img/car_brands/renault.png" alt="Renault" />
+									<img src="img/car_brands/skoda.png" alt="Skoda" />
+									<img src="img/car_brands/toyota.png" alt="Toyota" />
+									<img src="img/car_brands/volkswagen.png" alt="Volkswagen" />
+								</p>
+								<p style="font-size:35%;">
+									<strike>Jeep, Chrysler, Alfa-Romeo, Fiat</strike>
+								</p>
+							</div>
+							<p><img src="img/BenfieldArea.jpg" alt="Northern England" /></p>
+							<aside class="notes">
+								30+ dealserships<br />
+								2 countries <br />
+								Fleet sales all over the UK
+							</aside>
+						</div>
+					</section>
+					<section>
+						<h3>Processing Fleet sales<br /></h3>
+						<p class="fragment"><strong>SPREADSHEETS.</strong></p>
+						<p class="fragment"><strong>SO MANY SPREADSHEETS.</strong></p>
+						<p class="fragment"><strong>HUUUUUUUGE SPREADSHEETS.</strong></p>
+						<aside class="notes">
+							<ul>
+								<li>Company cars, commercial vans, etc.</li>
+								<li>Recent addition to company.</li>
+								<li>Built to spec, customisations added</li>
+								<li>Delivered anywhere in the country</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>So they built a system</h3>
+						<p>The usual story for a big corporate</p>
+						<p><u>But it works</u></p>
+						<aside class="notes">
+							<p>There's nothing on the market to do this.</p>
+							<p>Waterfall; timeline crush.</p>
+							<p>Ever changing requirements</p>
+							<p>Extension projects</p>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<h2>What's the problem?</h2>
+					<section>
+						<p class="fragment"><strong>SPREADSHEETS</strong></p>
+						<p class="fragment">Even worse than before</p>
+						<aside class="notes">
+							<ul>
+								<li>More flexible than the system</li>
+								<li>Double enter all the things</li>
+								<li>All the reports - 'coz system speed</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<p><strong>TECHNICAL DEBT</strong></p>
+						<p class="fragment">Only about&hellip; 3 years worth or so&hellip;</p>
+						<aside class="notes">
+							<ul>
+								<li>(jQuery) Spagetti everywhere</li>
+								<li>Very tightly coupled</li>
+								<li>Dat database :/</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>System actors</h3>
+						<p class="fragment">Developers build the best systems.</p>
+						<p class="fragment">Users use it wrong, right?</p>
+						<aside class="notes">
+							<ul>
+								<li>Correct systems. Exactly what was asked for.</li>
+								<li>Unless it's a bug. There are always bugs. (c.f. Tech Debt!)</li>
+								<li>Top down management, incorrect requirements</li>
+								<li>Double double entry entry.</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<img src="img/whaa.jpg" alt="Captain Jack Sparrow, looking mighty confused." />
+						<aside class="notes">
+							<p>At this point, I enter the picture.</p>
+						</aside>
+					</section>
+					<section>
+						<h3>So let's fix it</h3>
+						<ul>
+							<li>Collect user stories</li>
+							<li>Fix clear bugs</li>
+							<li>Build new features</li>
+						</ul>
+						<aside class="notes">
+							<ul>
+								<li>User stories without context are just stories</li>
+								<li>User stories aren't always coming from the user</li>
+								<li>(Just like devs) Users know how to complain, but don't really know what they want</li>
+								<li>'Bike-shedding', e.g. Weekdays SQL snippet, not needed, just nice.</li>
+								<li>Build it, and they will ignore it.</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>Maintain it</h3>
+						<ul>
+							<li>Fix my mistakes</li>
+							<li>Fix their mistakes</li>
+							<li>Tutor the users</li>
+						</ul>
+						<aside class="notes">
+							<ul>
+								<li>And tutor the users, and fix their mistakes, (ad infinitum).</li>
+								<li>But this helps me understand</li>
+								<li>System needs, user needs</li>
+								<li>Slowly automated, e.g. DMS stock unlink SQL</li>
+								<li>Which eventually turn into features they actually need, but didn't ask for</li>
+								<li>They sorta know what they need, but don't necessarily recognise it to ask</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<img src="img/knowNothing.png" alt="You know nothing" />
+					</section>
+					<section>
+						<h3>The grind</h3>
+						<p>Focus on usability&hellip;</p>
+						<p class="fragment">&hellip;But it breaks faster than we fix it!</p>
+						<aside class="notes">
+							<ul>
+								<li>Can't search (only a single order number)</li>
+								<li>Need to know where something is first</li>
+								<li>All the layouts are different</li>
+								<li>Just settle to clean as you go, little by little.</li>
+								<li>Unlink DMS stock causes problems!</li>
+								<li>No checks, inconsistent states</li>
+								<li>Technical demolition rek'n as I go</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<h2>Defining the solution</h2>
+					<section>
+						<h3>The impossible solution</h3>
+					</section>
+					<section>
+						<p>All we really need is a system that is</p>
+						<ul>
+							<li>A consistent nice UX throughout</li>
+							<li>Infinitely scalable</li>
+							<li>Infinitely reportable</li>
+							<li>Infinitely adaptable</li>
+							<li>Infinitely auditable</li>
+							<li>Kept to a minimum of technical debt at all times</li>
+						</ul>
+					</section>
+					<section>
+						<p>And keeps correct to the specification <br /><em>of that week</em></p>
+						<p>&nbsp;</p>
+						<p><strong><em>Simple, right?</em></strong></p>
+					</section>
+					<section>
+						<p><u>AND EXPORTS SPREADSHEETS.</u></p>
+					</section>
+					<section>
+						<h3>Well &hellip;</h3>
+						<pre><code>
+			while ( $grinding ) {
+			
+				$xp ++;
+				
+			}
+						</code></pre>
+						<aside class="notes">
+							<p>The process begins to make itself entirely known</p>
+							<ul>
+								<li>Manual SQL to find order</li>
+								<li>SQL to find order with wrong info</li>
+								<li>SQL removes wrong order info</li>
+								<li>File that removes ALL orders with wrong info</li>
+								<li>sures up majority of database, efficiently</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>But &hellip;</h3>
+						<p class="fragment">One mistake</p>
+						<p class="fragment">One <em>action</em></p>
+						<p class="fragment">One <strong>action</strong></p>
+						<h4 class="fragment">One <u>feature</u></h4>
+						<aside class="notes">
+							<p>Things are happening everywhere. Orders are easily lost.</p>
+							<p>Whole departments spend 80% of their time find out what is lost.</p>
+							<ul>
+								<li><strong>Why?</strong>pp</li>
+								<li><strong>And I've automated it!</strong></li>
+								<li>The system should do this thing.</li>
+								<li>But then how do they keep track of it!?</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>Start at the top</h3>
+						<p>Feels backwards.</p>
+						<aside class="notes">
+							<p>Construction analogy</p>
+							<p>UX is where the real value is added.</p>
+							<p>This is what the user sees, this is what they love you for.</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Refactoring</h3>
+						<p>Strip and rebuild,</p>
+						<p><em>consistently</em>.</p>
+						<aside class="notes">
+							<p>Code complexity mirrors interface complexity.</p>
+						</aside>
+					</section>
+					<section>
+						<h3>Meanwhile &hellip;</h3>
+						<p class="fragment">User <em>mistakes</em></p>
+						<p class="fragment">Inconsistent <strong>states</strong></p>
+						<p class="fragment">Manual actions to <strong>transition</strong> back</p>
+					</section>
+					<section>
+						&hellip;
+					</section>
+					<section>
+						<h3> <span style="font-weight:bold;position:relative;top:-5px">:</span>o </h3>
+						<strong>It's a FSM!</strong>
+					</section>
+					<section><img src="img/fsm-ss.jpg" alt="flying spagetti monster?" /></section>
+					<section>No. That's too far outside these lines, mate.</section>
+					<section>
+						<div class="split">
+						<h3 style="text-align:left;"><strong>F</strong>inite <br /><strong>S</strong>tate <br /><strong>M</strong>achine!</h3>
+						<p>
+							<img src="img/fsm-fsm.png" alt="A simple Finite State Machine" />
+							<small>Does look sorta similar though.</small>
+						</p>
+						</div>
+					</section>
+					<section data-background="img/Newcastle_ticket_gates.jpg" data-background-transition="none">
+						<!-- data-background-size="657px" -->
+					</section>
+					<section>
+						<p><img src="img/fsm-example.png" alt="finite state machine example diagram for a turnstyle" /></p>
+						<p>A finite state machine example for a turnstyle</p>
+						<aside class="notes">
+							Inconsistent staes are like zombies
+						</aside>
+					</section>
+					<section>
+						<h3>And so!</h3>
+						<p><em>Pages</em> are <strong>states</strong>.</p>
+						<p><em>Form actions</em> are <strong>transitions</strong>.</p>
+						<aside class="notes">
+							<p>Each screen is a query result; <br />a <em>list</em> of orders in a particular <strong>state</strong>.</p>
+							<p>And each row/order has a set of <strong>transitions</strong>; <br /><em>actions</em> that can be applied to it.</p>
+						</aside>
+					</section>
+				</section>
+				<section>
+					<h2>Technical twister</h2>
+					<section>
+						<h3>Back to SilverStripe?</h3>
+						<ul>
+							<li>Autoloader</li>
+							<li>Routing</li>
+							<li>Templates</li>
+							<li>Config</li>
+							<li><strong>Forms</strong></li>
+							<li>GridField my <strike>life</strike> UI</li>
+						</ul>
+						<aside class="notes">
+							<ul>
+								<li>Array of filenames to 'autoload'.</li>
+								<li>Everything bound to global reference.</li>
+								<li>Not even used, no param picking, only parsing.</li>
+								<li>class/method/params - nearly always.</li>
+								<li>Plain PHP templates, 'helpers'.</li>
+								<li>I'm starting to reference constants.</li>
+								<li>OMG FORMS. Building, parsing, validating, submitting, routing, ALL OF IT</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<blockquote>With enough GridFields we could solve all the world's problems</blockquote>
+						<cite>Sam Minnée, 2014</cite>
+					</section>
+					<section>
+						<img src="img/gridfieldring.jpg" alt="One GridField, to superclass them all" />
+						<p>Consistency! \o/</p>
+						<aside class="notes">
+							<ul>
+								<li>Detail form</li>
+								<li>Filter headers</li>
+								<li>Multiple selection</li>
+							</ul>
+						</aside>
+					</section>
+					<section>
+						<h3>Trasitions</h3>
+						<div class="split">
+							<img src="img/input.jpg" src="" />
+							<div>
+								<blockquote>Yeah so forms inside of forms is not supposed to be a thing</blockquote>
+								<cite>Jakr</cite>
+							</div>
+						</div>
+					</section>
+					<section>
+						<h3>How?</h3>
+						<ol>
+							<li style="font-family:monospace">/controller/</li>
+							<li style="font-family:monospace">/controller/Form</li>
+							<li style="font-family:monospace">/controller/Form/double-data-how-whateven</li>
+						</ol>
+						<aside class="notes">
+							Riding backs of those before us
+							<p>How does the multi form module do it?</p>
+						</aside>
+					</section>
+					<section>
+						<pre><code>function StateListForm() {
+	//...
+	return Form::create($this, __FUNCTION__, $fields, $actions, $validation);
+}
+
+function TransitionInputForm() {
+	//...
+	return Form::create($this, __FUNCTION__, $fields, $actions, $validation);
+}</code></pre>
+						<pre><code>public function doTransition($data, $form, $request)</code></pre>
+						<pre><code>$form->getName()</code></pre>
+						<aside class="notes">
+							Chain, not wrap!
+						</aside>
+					</section>
+					<section>
+						<pre><code>public function doTransition($data, $form, $request) {
+						
+	if($form->getName() === 'StateListForm') {
+	
+		return $this->TransitionInputForm();
+	
+	} else {
+	
+		//do the thing
+						</code></pre>
+						<aside class="notes">
+							So I've encapsulated a thing to a method...
+							<p>But I require at least two per thing</p>
+							And they're copy and paste per class :(
+						</aside>
+					</section>
+					<section>
+						<img src="img/dunnolike.jpg" alt="Captain Jack Sparrow, looking puzzled." />
+						<p>I've only <em>shifted</em> the technical debt!</p>
+					</section>
+					<section>
+						<img src="img/encapsulate.jpg" alt="Controller actions, form actions everywhere" />
+						<aside class="notes">
+							<p><strong>Need to encapsulate</strong></p>
+							<p>Components? why form? Just POST rando controllers.</p>
+							<p>Controllers? Cannot compose actions.</p>
+							<p>Extensions? process as queue, so coupled to controller.</p>
+						</aside>
+					</section>
+					<section>
+						<p><code>FormAction</code> is a form field.</p>
+						<p>&amp;&amp;</p>
+						<p>Form Fields can handle actions</p>
+						<div class="fragment">
+						<hr style="border:2px solid #BABFC6" />
+						<p>
+							What if a <code>FormAction</code> could be a <em>form action</em>!?
+						</p>
+						</div>
+					</section>
+					<section>
+						<h3>The Holy Grail!?</h3>
+						<p>Form::httpSubmission</p>
+						<pre><code class="php">// Try to find a field that has the action, and allows it </code></pre>
+						<p class="fragment">But it's commented. Since like, it was introduced -.-</p>
+						<aside class="notes">
+							Dead end. To make it work I'd need Extension, which breaks the encapsulation to two co-dependent classes. Not nice.
+						</aside>
+					</section>
+					<section>
+						<div class="split">
+							<div>
+								<img src="img/philosoraptor.jpg" alt="Philosoraptor: In order to encapsulate so I can delegate, I need to emulate?">
+							</div>
+							<div>
+								<h3>You will need:</h3>
+								<ul>
+									<li>A form action</li>
+									<li>A URL Handler</li>
+									<li>An allowed action</li>
+									<li><strong>A controller method</strong></li>
+								</ul>
+							</div>
+						</div>
+						<aside class="notes">
+							<p>Starting from a state, first form is fixed.</p>
+							<p>Lucky for us, <code>private static $settings</code> are just <em>default values</em> for the mutable <strong>config</strong> :D</p>
+							<p>Can FormActions point to methods elsewhere?</p>
+						</aside>
+					</section>
+					<section>
+						<img src="img/Challenge-Accepted-Meme.jpg" alt="Challenge Accepted." />
+						<aside class="notes">
+							<p>Extension can add methods for <scode>__call</code>, can I do it manually?</p>
+						</aside>
+					</section>
+					<section>
+						<code>Form::httpSubmission</code>
+						<pre><code class="php">$this->controller->hasMethod($funcName) 
+	&amp;&amp; !$this->controller->checkAccessAction($funcName)</code></pre>
+						<code>Object::hasMethod</code>
+						<pre><code class="php">method_exists($this, $method) || isset(self::$extra_methods[$this->class][strtolower($method)])</code></pre>
+						<p>What modifies <strong>extra_methods</strong>?</p>
+					</section>
+					<section>
+						<p>Object::addWrapperMethod</p>
+						<img src="img/mindblown.gif" alt="ming blown" />
+					</section>
+					<section>
+						<pre><code class="php">foreach($transitions as $class => $title) {
+						
+	//set actions and required permissions
+	$extra_actions[$class] = Config::inst()->get($class, 'permission') ?: true;
+	
+	//MAGIC HAPPENS, I BELIEVE!
+	$this->addWrapperMethod($class, 'complexSubmission');
+	
+	//Point the URLs to the magic!
+	$extra_handlers[$class] = 'complexSubmission';
+}
+//Set it all
+$this->config()->allowed_actions = array('complexSubmission')+$extra_actions;
+$this->config()->url_handlers = $extra_handlers;
+</code></pre>
+					</section>
+					<section>
+						<pre><code>class StateController extends Controller {
+						
+	public function init() {
+		//as previous slide
+	}
+	public function StateForm() {
+		//What it says on the tin
+	}
+	public function complexSubmission() {
+		//point ALL FormActions here
+	}
+}</code></pre>
+					</section>
+					<section>
+						<h3>Encapsulation!</h3>
+						<pre><code>class Transition extends Object {
+						
+	public function canPerform() {
+		//Are we able to do this?
+	}
+	public function TransitionForm() {
+		//Collect the input
+	}
+	public function perform() {
+		//Complete the transition
+	}
+}</code></pre>
+					</section>
+					<section>
+						<h3>Black magic</h3>
+						<p>The way to tell forms apart is gone!</p>
+						<aside class="notes">
+							Method is now a:
+							<ul>
+								<li>form action target - State Form</li>
+								<li>Form submission target - Transition Form</li>
+								<li>AND a form submission form action target! - Transition Form Action Completion!</li>
+								<li>FOR MULTIPLE NAME UNKNOWN FORMS!</li>
+						</aside>
+					</section>
+					<section>
+						<img src="img/pussinbootshat.jpg" alt="cat holding a hat" />
+					</section>
+					<section>
+						<h3>About magic</h3>
+						<p>Object::__call() prepends the called name <br />before calling the wrapped target</p>
+						<pre><code>array_unshift($arguments, $config['method']);</code></pre>
+						<p>So we can tell things apart&hellip;</p>
+					</section>
+					<section>
+						<p>&hellip;In the most legit of switch statements</p>
+						<pre><code class="php">$args = func_get_args();
+switch (count($args)) {
+	case 4: //Called by an alias
+		$type = array_shift($args);
+	case 3: //Form action target
+		list($data, $form) = $args;
+	case 1: //Form submission (like any other action!)
+		$request = array_pop($args);
+	break;
+	default:
+		$args = count($args);
+		throw new InvalidArgumentException("doComplexAction: Invalid number of args passed ($args)");
+}</code></pre>
+					</section>
+					<section>
+					<p>Sanity check</p>
+					<pre><code class="php">if(!$request instanceof SS_HTTPRequest)
+	throw new InvalidArgumentException("complexSubmission: not passed a request");
+	
+if(!$type) //State Form calls complexSubmission directly as action
+	$type = ($form && $form instanceof Form) ? $form->getName()
+		: $type = $request->param('Action');
+		
+//Ensure this is a thing!
+if(!$type || !is_subclass_of($type, 'Transition'))
+	throw new Exception('Could not determine Transition type');</code></pre>
+					</section>
+					<section>
+						<p>Get us some action</p>
+						<pre><code class="php">$transitions = $this->config()->transitions;
+$title = array_key_exists($type, $transitions) ? $transitions[$type] : null;
+
+if(!$title) //Transition not applicable from this state
+	return $this->httpError(404, "Transition '$type' isn't available from state {$this->class}.");
+
+$transition = $type::create($this, $title);</code></pre>
+					</section>
+					<section>
+						<p>Deal with it</p>
+						<pre><code>if($form && $type == $form->getName()) {
+	//Complete the transition's action
+	$transition->perform($data, $form, $request);
+}
+else {
+	$errors = $transition->canPerform();
+	if($errors) //Items do not meet the state criteria
+		$output = $request->isAjax() ? json_encode($errors) : ArrayList::create($errors)->renderWith('ComplexAction_failure.ss');
+	if(!$output) //Send out the input form! (validation or initial entry)
+		$output = $form ? $transition->Form()->forTemplate() : $transition->Form();
+}
+return $output;</code></pre>
+					</section>
+					<section>
+						<img src="img/165lines.png" alt="165 lines of what" />
+					</section>
+					<section>
+						<div class="split">
+							<img src="img/result.png" alt="165 lines of what" />
+							<p>&nbsp;&amp;&nbsp;</p>
+							<img src="img/transitionexample.png" alt="10 lines of win" />
+						</div>
+					</section>
+					<!--section>
+						<ul>
+							<li>Controllers are stackable&hellip;</li>
+							<li>Forms are RequestHandler's too.</li>
+							<li>Can we encapsulate all the transition rules?</li>
+							<li>Have our transition definitions provide Validation</li>
+							<li>Turns out FormFields can be action handlers too!</li>
+							<li>Have transition definitions provide a FormAction too</li>
+							<li>Forms in a form processing formactions... :o</li>
+							<li>GridField on the front end!?</li>
+						</ul>
+					</section>
+					<section>
+						<p>I want to put screenshots here, but haven't had time to set them up yet.</p>
+						<p>Whole weekend ahead of me!</p>
+					</section-->
+				</section>
+				<section>
+					<h2>The advantages of SilverStripe</h2>
+					<ul>
+						<li>Build fast, fail fast. Fix faster.</li>
+						<li>Legitimate use for a switch statement, owww yis!</li>
+						<li>'Monolithic' structure helping rather than hindering</li>
+					</ul>
+					<aside class="notes">
+						<p>90% provided out of the box, but with <em>extreme</em> flexibility to provide the other 10% with custom development</p>
+					</aside>
+				</section>
+				<section>
+					<h2>What's next?</h2>
+					<p>Flexibility of SilverStripe allows for easy modularisation!</p>
+					<p>***</p>
+					<p>Config/Injector defined compositions!</p>
+					<p>***</p>
+					<p>Can apply it to anything with a defined flow, even if it's not linear.</p>
+					<aside class="notes">
+						<ul>
+							<li>A less confusing Advanced Workflow?</li>
+							<li>Order processing? e.g. 'Compound products' in e-commerce</li>
+							<li>Warehousing?</li>
+						</ul>
+					</aside>
+				</section>
+				<section>
+					<h2>Framework</h2>
+					<h3>I encourage you</h3>
+					<img src="img/giveitago.jpg" alt="SHOVE" />
+					<p>Give it a go!</p>
+				</section>
+				<section>
+					<p>Is it over-abstraction?</p>
+					<p><strong>Not on your life, matey.</strong></p>
+					<blockquote class="fragment">Over-engineering is the SilverStripe way</blockquote>
+				</section>
+				<section data-background="img/anythingIsPossible.jpg">
+					<h2 style="color:white">Anything is possible!</h2>
+					<section></section>
+				</section>
+			</div>
+		</div>
+		<script src="reveal.js-3.4.1/lib/js/head.min.js"></script>
+		<script src="reveal.js-3.4.1/js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				transition: 'concave',
+				dependencies: [
+					{ src: 'reveal.js-3.4.1/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js-3.4.1/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js-3.4.1/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js-3.4.1/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js-3.4.1/plugin/zoom-js/zoom.js', async: true },
+					{ src: 'reveal.js-3.4.1/plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
